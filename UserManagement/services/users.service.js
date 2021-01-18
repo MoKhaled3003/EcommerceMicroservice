@@ -1,0 +1,65 @@
+const {
+  sequelize
+} = require("../models/index");
+const User = require("../models/index")["User"];
+const {
+  hash,
+  validatePass
+} = require("../middleware/hashing")
+const {
+  createToken
+} = require('../middleware/authintication')
+
+module.exports.UsersService = class {
+  static async register(body) {
+    let user = await User.findOne({
+      where: {
+        email: body.email
+      }
+    });
+    if (user) return {
+      code: 400,
+      message: "user is already registered"
+    };
+
+    body.password = await hash(body.password)
+    user = await new User(body).save();
+
+    let token = createToken(body.email)
+    return {
+      code: 200,
+      message: user,
+      token: token
+    }
+  }
+
+
+  static async login(body) {
+
+
+    let user = await User.findOne({
+      where: {
+        email: req.body.email
+      }
+    });
+
+    if (!user) return {
+      code: 400,
+      message: "email or password is incorrect"
+    }
+
+    let validPassword = await validatePass(req.body.password, user.password)
+    if (!validPassword) return {
+      code: 400,
+      message: "email or password is incorrect"
+    }
+    
+    let token = createToken(body.email)
+    return {
+      code: 200,
+      message: user,
+      token: token
+    }
+    
+  }
+}
