@@ -1,12 +1,9 @@
-let {ProductsController} = require('../controllers/products.controller')
+let ProductsController = require('../controllers/products.controller')
 const {JoiValidator} = require('../middleware/validation')
 // Modules
 const express = require("express");
 const router = express.Router();
 
-
-router.get("/ProductsInCategory/",new JoiValidator(['page','category_id']),new ProductsController().getAllProducts);
-router.put("/setFeatured/",new JoiValidator(['id','featured']),new ProductsController().setFeatured);
-
+router.get("/",new JoiValidator(['page','category_id','brand']), ProductsController.getProducts);
 
 module.exports = router;

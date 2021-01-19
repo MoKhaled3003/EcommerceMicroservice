@@ -54,7 +54,7 @@ class UsersService {
       message: "email or password is incorrect"
     }
     
-    let token = createToken(user)
+    let token = createToken(body.email)
     return {
       code: 200,
       message: user,

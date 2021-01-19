@@ -10,8 +10,7 @@ const swaggerUi = require("swagger-ui-express"),
 swaggerDocument = require("./docs/swagger.json");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var productsRouter = require('./routes/products.route');
+var usersRouter = require('./routes/users.route');
 
 const { sequelize } = require('./models/index');
 var app = express();
@@ -34,14 +33,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/products', productsRouter);
 
 app.use((err, req, res, next) => {
  
     res.status(400);
     res.json({ error: err.message });
 
- 
 });
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
