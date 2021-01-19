@@ -24,8 +24,11 @@ class UsersService {
 
     body.password = await hash(body.password)
     user = await new User(body).save();
-
-    let token = createToken(body.email)
+    console.log(user)
+    let token = createToken({
+      id: user.dataValues.id,
+      email: user.dataValues.id
+    })
     return {
       code: 200,
       message: user,
@@ -53,14 +56,17 @@ class UsersService {
       code: 400,
       message: "email or password is incorrect"
     }
-    
-    let token = createToken(body.email)
+
+    let token = createToken({
+      id: user.dataValues.id,
+      email: user.dataValues.id
+    })
     return {
       code: 200,
       message: user,
       token: token
     }
-    
+
   }
 }
 

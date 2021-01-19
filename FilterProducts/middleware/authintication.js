@@ -8,6 +8,7 @@ module.exports.auth = (req, res, next) => {
 
     try {
         token = jwt.verify(token, jwtKey);
+        console.log(token)
         req.user = token;
         next();
     } catch (ex) {

@@ -11,7 +11,7 @@ swaggerDocument = require("./docs/swagger.json");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users.route');
-
+let productsRouter = require('./routes/products.route')
 const { sequelize } = require('./models/index');
 var app = express();
 
@@ -33,6 +33,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+
 
 app.use((err, req, res, next) => {
  
