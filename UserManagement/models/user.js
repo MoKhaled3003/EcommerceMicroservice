@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   User.associate = function(models) {
     // associations can be defined here
-    User.belongsTo(models.Account,{ foreignKey: 'account_id' });
-
+    User.belongsTo(models.Account,{foreignKey: 'account_id'});
   };
   return User;
 };

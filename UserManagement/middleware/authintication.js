@@ -16,8 +16,6 @@ module.exports.auth = (req, res, next) => {
 }
 
 module.exports.createToken = (user) => {
-    let token = jwt.sign(user, jwtKey, {
-        expiresIn: '24h'
-    });
+    let token = jwt.sign(user, jwtKey);
     return token
 };

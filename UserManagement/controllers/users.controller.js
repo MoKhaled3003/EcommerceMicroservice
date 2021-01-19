@@ -1,8 +1,6 @@
-let {
-    UsersService
-} = require('../services/users.service')
+let UsersService = require('../services/users.service')
 
-module.exports.UsersController = class {
+class UsersController {
     static async register(req, res) {
 
         let data = await UsersService.register(req.body);
@@ -23,3 +21,5 @@ module.exports.UsersController = class {
         }
     }
 }
+
+module.exports = UsersController

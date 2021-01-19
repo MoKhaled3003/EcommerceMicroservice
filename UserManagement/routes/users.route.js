@@ -1,4 +1,4 @@
-let {UsersController} = require('../controllers/users.controller')
+let UsersController = require('../controllers/users.controller')
 const {JoiValidator} = require('../middleware/validation')
 // Modules
 const express = require("express");

@@ -10,7 +10,7 @@ const {
   createToken
 } = require('../middleware/authintication')
 
-module.exports.UsersService = class {
+class UsersService {
   static async register(body) {
     let user = await User.findOne({
       where: {
@@ -39,7 +39,7 @@ module.exports.UsersService = class {
 
     let user = await User.findOne({
       where: {
-        email: req.body.email
+        email: body.email
       }
     });
 
@@ -48,7 +48,7 @@ module.exports.UsersService = class {
       message: "email or password is incorrect"
     }
 
-    let validPassword = await validatePass(req.body.password, user.password)
+    let validPassword = await validatePass(body.password, user.password)
     if (!validPassword) return {
       code: 400,
       message: "email or password is incorrect"
@@ -63,3 +63,5 @@ module.exports.UsersService = class {
     
   }
 }
+
+module.exports = UsersService
