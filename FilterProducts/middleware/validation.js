@@ -18,6 +18,9 @@ module.exports.JoiValidator = class {
             if (req.query) {
                 Object.assign(req.body, req.query)
             }
+            if (req.params) {
+                Object.assign(req.body, req.params)
+            }
             let { value, error } = this.schema.validate(req.body);
             if (error) return res.status(400).send(error.message);
             if (value){

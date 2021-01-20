@@ -1,6 +1,5 @@
-const {
-  sequelize
-} = require("../models/index");
+
+//models
 const Product = require("../models/index")["Product"];
 const Account = require("../models/index")["Account"];
 
@@ -10,22 +9,30 @@ let {
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+
+//helper function to get logged in user balance and return query filter for sequelize
+async function getBalance(id) {
+  let data = await Account.findOne({
+    where : {
+      user_id : id
+    },
+    attributes:['balance','holded_amount']
+  });
+
+  let filter = {}
+  let allowed_balance = allowed_balance.dataValues.balance - allowed_balance.dataValues.holded_amount
+  (allowed_balance > 0) ? filter[Op.lte] = allowed_balance.dataValues.balance : throw new Error('invalid balance')
+ 
+  return filter
+}
+
 class ProductsService {
-  static async getProducts(query, user) {
+  static async filterProducts(query, user) {
 
     let pagination = paginate(query.page)
     delete query.page;
 
-    let allowed_balance = await Account.findOne({
-      where : {
-        user_id : user.id
-      },
-      attributes:['balance']
-    });
-
-    let filter = {}
-    filter[Op.lte] = allowed_balance.dataValues.balance;
-    query['price'] = filter
+    query['price']  = await getBalance(user.id)
 
     let products = await Product.findAndCountAll({
       where : query,
@@ -33,13 +40,32 @@ class ProductsService {
     offset: pagination.startIndex
     })
     if (!products) return {
-      code: 400,
-      message: "email or password is incorrect"
+      code: 404,
+      message: "there is no products"
     }
 
     return {
       code: 200,
       message: products
+    }
+
+  }
+
+  static async getProduct(id,user) {
+    let query = {id}
+    query['price']  = await getBalance(user.id)
+
+    let product = await Product.findOne({
+      where : query
+    })
+    if (!product) return {
+      code: 404,
+      message: "there is no product"
+    }
+
+    return {
+      code: 200,
+      message: product
     }
 
   }

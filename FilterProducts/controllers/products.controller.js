@@ -1,9 +1,14 @@
 let ProductsService = require('../services/products.service')
 
 class ProductsController {
-    static async getProducts(req,res){
+    static async filterProducts(req,res){
  
-        let data = await ProductsService.getProducts(req.query,req.user);
+        let data = await ProductsService.filterProducts(req.query,req.user);
+        return res.status(data.code).send(data.message)
+    }
+    static async getProduct(req,res){
+ 
+        let data = await ProductsService.getProduct(req.params.id,req.user);
         return res.status(data.code).send(data.message)
     }
 }
