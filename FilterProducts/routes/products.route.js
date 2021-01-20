@@ -5,6 +5,8 @@ const express = require("express");
 const { auth } = require('../middleware/authintication');
 const router = express.Router();
 
-router.get("/",auth, ProductsController.getProducts);
+router.get("/",auth,new JoiValidator(['category_id','brand','page',]) ,ProductsController.filterProducts);
+router.get("/:id",auth,new JoiValidator(['id']) ,ProductsController.getProduct);
+
 
 module.exports = router;
