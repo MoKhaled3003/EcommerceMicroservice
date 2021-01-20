@@ -2,7 +2,8 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     let Order = sequelize.define('Order', {
-        status:DataTypes.ENUM('pending','shipped','delivered')
+        price:DataTypes.DOUBLE,
+        status:DataTypes.ENUM('pending','canceled','shipped','done')
   }, {
     });
     Order.associate = function(models) {
