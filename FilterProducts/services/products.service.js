@@ -21,7 +21,7 @@ async function getBalance(id) {
 
   let filter = {}
   let allowed_balance = allowed_balance.dataValues.balance - allowed_balance.dataValues.holded_amount
-  (allowed_balance > 0) ? filter[Op.lte] = allowed_balance.dataValues.balance : throw new Error('invalid balance')
+  (allowed_balance > 0) ? filter[Op.lte] = allowed_balance.dataValues.balance : throw Error('invalid balance')
  
   return filter
 }
