@@ -37,7 +37,6 @@ app.use('/products', productsRouter);
 
 
 app.use((err, req, res, next) => {
- 
     res.status(400);
     res.json({ error: err.message });
 
