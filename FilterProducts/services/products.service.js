@@ -21,13 +21,10 @@ async function getBalance(id) {
 
   let filter = {}
   let allowed_balance = data.dataValues.balance - data.dataValues.holded_amount
-  console.log("outside if positiv",allowed_balance)
-  if(allowed_balance > 0) {
-    console.log("inside if positiv",allowed_balance)
-     filter[Op.lte] = allowed_balance 
-    }else{
-      throw new Error('invalid balance')
-    }
+
+  if(allowed_balance <= 0) return false 
+
+  filter[Op.lte] = allowed_balance 
   return filter
 }
 
@@ -37,29 +34,21 @@ class ProductsService {
     let pagination = paginate(query.page)
     delete query.page;
 
-    try{
-      query['price']  = await getBalance(user.id)
-    }catch(e){
-      return {
-        code: 400,
-        message: 'low balance'
-      }
-    }
+    let res = await getBalance(user.id)
+
+    if(res == false) return false;
+
+    query['price']  = res
+    
     let products = await Product.findAndCountAll({
-      where : query,
+    where : query,
     limit: pagination.offset,
     offset: pagination.startIndex
     })
-    if (!products) return {
-      code: 404,
-      message: "there is no products"
-    }
 
-    return {
-      code: 200,
-      message: products
-    }
+    if (!products) return null
 
+    return products
   }
 
   static async getProduct(id,user) {
