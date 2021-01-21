@@ -53,27 +53,19 @@ class ProductsService {
 
   static async getProduct(id,user) {
     let query = {id}
-    try{
-      query['price']  = await getBalance(user.id)
-    }catch(e){
-      return {
-        code: 400,
-        message: 'low balance'
-      }
-    }
 
+    let res = await getBalance(user.id)
+
+    if(res == false) return false;
+
+    query['price']  = res
     let product = await Product.findOne({
       where : query
     })
-    if (!product) return {
-      code: 404,
-      message: "there is no product"
-    }
 
-    return {
-      code: 200,
-      message: product
-    }
+    if (!product) return null
+
+    return product
 
   }
 }

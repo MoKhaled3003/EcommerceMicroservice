@@ -13,8 +13,12 @@ class ProductsController {
     }
     static async getProduct(req,res){
  
-        let data = await ProductsService.getProduct(req.params.id,req.user);
-        return res.status(data.code).send(data.message)
+        let product = await ProductsService.getProduct(req.params.id,req.user);
+
+        if (products == fasle ) return res.status(400).send('insuffcient balance')
+        if (products == null) return res.status(404).send('there is no product')
+
+        return res.status(200).send(product)    
     }
 }
 module.exports = ProductsController
