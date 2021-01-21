@@ -1,6 +1,6 @@
 //models
 const Order = require("../models/index")["Order"];
-const Order_Product = require("../models/index")["Order_Detail"];
+const Order_Detail = require("../models/index")["Order_Detail"];
 const Account = require("../models/index")["Account"];
 const sequelize = require("../models/index").sequelize
 let {
@@ -8,8 +8,7 @@ let {
 } = require('../middleware/paginate')
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-
-
+const moment = require('moment')
 class OrdersService {
 
     static async getOrders(user_id, page) {
@@ -76,11 +75,14 @@ class OrdersService {
                 transaction
             });
             
+            console.log('order detail amount',orderDetail.total)
+            console.log('holded before',account.holded_amount)
 
 
             account.holded_amount -= orderDetail.total
 
             
+            console.log('holded after',account.holded_amount)
 
             await account.save({
                 fields: ['holded_amount'],
@@ -112,12 +114,13 @@ class OrdersService {
     }
 
     static async makeOrder(body, user_id) {
+        console.log(body)
         let transaction;
         try {
             transaction = await sequelize.transaction();
 
             let total_amount = 0;
-            body.foreach(product => {
+            body.forEach(product => {
                 total_amount += (product.amount * product.quantity)
             })
 
@@ -140,13 +143,14 @@ class OrdersService {
             }
 
             const order = await Order.create({
-                status: 'pending'
+                status: 'pending',
+                user_id
             }, {
                 transaction
             });
 
-            body.foreach(product => {
-                let orderDetail = await Order_Detail.create({
+            body.forEach(async product => {
+                await Order_Detail.create({
                     order_id: order.id,
                     product_id: product.product_id,
                     quantity: product.quantity,
@@ -156,8 +160,10 @@ class OrdersService {
                 });
 
             })
-
-            account.holded_amount += total_amount
+            
+            let holded = parseFloat(account.holded_amount) 
+            holded += total_amount
+            account.holded_amount = holded
 
             await account.save({
                 fields: ['holded_amount'],

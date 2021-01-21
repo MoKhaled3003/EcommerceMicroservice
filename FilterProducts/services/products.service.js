@@ -7,6 +7,7 @@ let {
   paginate
 } = require('../middleware/paginate')
 const Sequelize = require('sequelize');
+const BusinessError = require('../middleware/businessError')
 const Op = Sequelize.Op;
 
 
@@ -22,7 +23,7 @@ async function getBalance(id) {
   let filter = {}
   let allowed_balance = data.dataValues.balance - data.dataValues.holded_amount
 
-  if(allowed_balance <= 0) return false 
+  if(allowed_balance <= 0) throw new BusinessError(1,'balance') 
 
   filter[Op.lte] = allowed_balance 
   return filter
@@ -36,8 +37,6 @@ class ProductsService {
 
     let res = await getBalance(user.id)
 
-    if(res == false) return false;
-
     query['price']  = res
     
     let products = await Product.findAndCountAll({
@@ -46,7 +45,7 @@ class ProductsService {
     offset: pagination.startIndex
     })
 
-    if (!products) return null
+    if (!products) throw new BusinessError(0,'products') 
 
     return products
   }
@@ -56,14 +55,12 @@ class ProductsService {
 
     let res = await getBalance(user.id)
 
-    if(res == false) return false;
-
     query['price']  = res
     let product = await Product.findOne({
       where : query
     })
 
-    if (!product) return null
+    if (!product) throw new BusinessError(0,'products') 
 
     return product
 
