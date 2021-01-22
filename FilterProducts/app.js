@@ -10,9 +10,7 @@ const swaggerUi = require("swagger-ui-express"),
 swaggerDocument = require("./docs/swagger.json");
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users.route');
 let productsRouter = require('./routes/products.route')
-let ordersRouter = require('./routes/orders.route')
 
 const { sequelize } = require('./models/index');
 var app = express();

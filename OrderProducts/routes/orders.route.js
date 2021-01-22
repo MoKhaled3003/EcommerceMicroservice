@@ -8,7 +8,6 @@ const router = express.Router();
 router.post("/",auth,OrdersController.makeOrder);
 router.get("/",auth,new JoiValidator(['page']) ,OrdersController.getOrders);
 router.delete("/:id",auth,new JoiValidator(['id']) ,OrdersController.cancelOrder);
-
-
+router.put("/:id",auth,new JoiValidator(['id']) ,OrdersController.deliverOrder);
 
 module.exports = router;

@@ -1,0 +1,38 @@
+version: "3"
+services:
+  reverseproxy:
+      image: mokhaled3003/reverseproxy
+      ports:
+          - 8080:8080
+      restart: always
+      depends_on:
+        - userManagement
+        - filterProducts
+        - orders     
+  userManagement:
+    image: mokhaled3003/userManagement
+    environment:
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD 
+      MYSQL_DB: $MYSQL_DB 
+      MYSQL_HOST: $MYSQL_HOST 
+      JWT_SECRET: $JWT_SECRET
+  filterProducts:
+    image: mokhaled3003/filterProducts
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD 
+      MYSQL_DB: $MYSQL_DB 
+      MYSQL_HOST: $MYSQL_HOST 
+  orders:
+    image: mokhaled3003/orders
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      MYSQL_USERNAME: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD 
+      MYSQL_DB: $MYSQL_DB 
+      MYSQL_HOST: $MYSQL_HOST  
+  

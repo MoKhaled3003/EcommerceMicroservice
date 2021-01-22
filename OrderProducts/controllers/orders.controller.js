@@ -22,8 +22,17 @@ class OrdersController {
     }
     static async cancelOrder(req,res){
         try{
-            let canceled = await OrdersService.cancelOrder(req.params.id,req.user.id);
+            await OrdersService.cancelOrder(req.params.id,req.user.id);
             return res.status(200).send('order has been canceled')
+
+        }catch(err){
+        return res.status(err.status).send(err.message)
+        }
+    }
+    static async deliverOrder(req,res){
+        try{
+            await OrdersService.deliverOrder(req.params.id,req.user.id);
+            return res.status(200).send('order has been delivered')
 
         }catch(err){
         return res.status(err.status).send(err.message)
