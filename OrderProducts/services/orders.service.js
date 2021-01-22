@@ -9,6 +9,7 @@ let {
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const moment = require('moment')
+const BusinessErrors = require('../middleware/businessError')
 class OrdersService {
 
     static async getOrders(user_id, page) {
@@ -21,15 +22,9 @@ class OrdersService {
             limit: pagination.offset,
             offset: pagination.startIndex
         })
-        if (!orders) return {
-            code: 404,
-            message: "there is no orders"
-        }
+        if (!orders) throw new BusinessErrors(0,'orders')
 
-        return {
-            code: 200,
-            message: orders
-        }
+        return orders
 
     }
 
@@ -43,15 +38,9 @@ class OrdersService {
                 }
             })
 
-            if (!order) return {
-                code: 400,
-                message: 'order is not found'
-            }
+            if (!order) throw new BusinessErrors(0,'order')
 
-            if (order.status == 'delivered') return {
-                code: 400,
-                message: 'order is delivered'
-            }
+            if (order.status == 'delivered') throw new BusinessErrors(2,'order')
 
             let account = await Account.findOne({
                 where: {
@@ -60,26 +49,30 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             });
-            if (!account) return {
-                code: 400,
-                message: 'Account is not found'
-            }
+            if (!account) throw new BusinessErrors(0,'account')
 
 
             let orderDetail = await Order_Detail.findAll({
                 where: {
                     order_id
                 },
-                attributes: [[sequelize.fn('sum', sequelize.col('amount')), 'total']],
+                raw:true
             }, {
                 transaction
             });
+
+            let OrdersTotal = 0;
+            orderDetail.forEach(e=>{
+                OrdersTotal += parseFloat(e.amount)
+            })
             
-            console.log('order detail amount',orderDetail.total)
+            let deletedOrderDetail = orderDetail.map(e=>e.id)
             console.log('holded before',account.holded_amount)
+            console.log('orderdetail',orderDetail)
 
 
-            account.holded_amount -= orderDetail.total
+            let releaseHold = parseFloat(account.holded_amount) - OrdersTotal
+            account.holded_amount = releaseHold
 
             
             console.log('holded after',account.holded_amount)
@@ -88,27 +81,20 @@ class OrdersService {
                 fields: ['holded_amount'],
                 transaction
             });
+
+            Order_Detail.destroy({ where: { id: deletedOrderDetail }})
+            Order.destroy({ where: { id: order_id }})
+
             await transaction.commit();
 
             let d = moment(order.createdAt)
-            return {
-                code: 200,
-                message: {
-                    order_id: order.id,
-                    order_amount: total_amount,
-                    order_date: d.format('DD-MM-YYYY'),
-                    order_time: d.format('HH:mm:ss')
-                }
-            }
+            return true
 
         } catch (err) {
             // Rollback transaction only if the transaction object is defined
             console.log(err);
             if (transaction) await transaction.rollback();
-            return {
-                code: 500,
-                message: "Order is not completed"
-            }
+            throw err
         }
 
     }
@@ -131,16 +117,12 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             });
-            if (!account) return {
-                code: 400,
-                message: 'Account is not found'
-            }
 
+            if (!account) throw new BusinessErrors(0,'account')
+
+            let max_allowed_balance = parseFloat(account.balance) - parseFloat(account.holded_amount) 
             //check maximum allowed balance
-            if (total_amount > account.balance - account.holded_amount) return {
-                code: 400,
-                message: 'Balance is not sufficient'
-            }
+            if (total_amount > max_allowed_balance ) throw new BusinessErrors(1)
 
             const order = await Order.create({
                 status: 'pending',
@@ -173,23 +155,17 @@ class OrdersService {
 
             let d = moment(order.createdAt)
             return {
-                code: 200,
-                message: {
                     order_id: order.id,
-                    order_amount: total_amount,
+                    order_amount: total_amount, 
                     order_date: d.format('DD-MM-YYYY'),
                     order_time: d.format('HH:mm:ss')
                 }
-            }
 
         } catch (err) {
             // Rollback transaction only if the transaction object is defined
             console.log(err);
             if (transaction) await transaction.rollback();
-            return {
-                code: 500,
-                message: "Order is not completed"
-            }
+            throw err
         }
 
     }
