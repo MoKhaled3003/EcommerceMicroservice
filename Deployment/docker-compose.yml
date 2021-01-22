@@ -2,32 +2,63 @@ version: "3"
 services:
   nginx:
       image: mokhaled3003/nginx
+      container_name: nginx  
       ports:
           - 8080:8080
       restart: always
       depends_on:
         - userManagement
         - filterProducts
-        - orders     
+        - orders
   userManagement:
-    image: mokhaled3003/userManagement
+    container_name: userManagement  
+    image: mokhaled3003/user-management
     environment:
+      NODE_ENV: production
       MYSQL_USERNAME: $MYSQL_USERNAME
       MYSQL_PASSWORD: $MYSQL_PASSWORD 
       MYSQL_DB: $MYSQL_DB 
-      MYSQL_HOST: $MYSQL_HOST 
+      MYSQL_HOST: mysqldb 
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb  
   filterProducts:
-    image: mokhaled3003/filterProducts
+    container_name: filterProducts
+    image: mokhaled3003/filter-products
     environment:
+      NODE_ENV: production
       MYSQL_USERNAME: $MYSQL_USERNAME
       MYSQL_PASSWORD: $MYSQL_PASSWORD 
       MYSQL_DB: $MYSQL_DB 
-      MYSQL_HOST: $MYSQL_HOST 
+      MYSQL_HOST: mysqldb 
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb  
   orders:
+    container_name: orders
     image: mokhaled3003/orders
     environment:
+      NODE_ENV: production
       MYSQL_USERNAME: $MYSQL_USERNAME
       MYSQL_PASSWORD: $MYSQL_PASSWORD 
       MYSQL_DB: $MYSQL_DB 
-      MYSQL_HOST: $MYSQL_HOST  
-  
+      MYSQL_HOST: mysqldb
+    depends_on:
+      - mysqldb
+    links:
+      - mysqldb     
+  mysqldb:
+    image: mysql
+    container_name: mysql
+    restart: always
+    ports: 
+      - "3307:3306"
+    environment:
+      MYSQL_DATABASE: ecommerce
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_PASSWORD: root12
+      MYSQL_ROOT_PASSWORD: root12
+    volumes: 
+      - ./ecommercStructreData.sql:/docker-entrypoint-initdb.d/init.sql

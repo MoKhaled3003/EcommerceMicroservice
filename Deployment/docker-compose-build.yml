@@ -1,0 +1,18 @@
+version: "3"
+services:
+  nginx:
+    build:
+      context: .
+    image: mokhaled3003/reverseproxy 
+  userManagement:
+    build:
+      context: ../UserManagement
+    image: mokhaled3003/userManagement
+  filterProducts:
+    build:
+      context: ../FilterProducts
+    image: mokhaled3003/filterProducts
+  orders:
+    build:
+      context: ../OrderProducts
+    image: mokhaled3003/orders

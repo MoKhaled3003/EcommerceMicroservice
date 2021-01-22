@@ -8,6 +8,7 @@ class ProductsController {
             let products = await ProductsService.filterProducts(req.query, req.user);
             return res.status(200).send(products)
         } catch (err) {
+            console.log(err)
             return res.status(err.status).send(err.message)
         }
     }
