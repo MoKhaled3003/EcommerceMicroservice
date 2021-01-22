@@ -6,7 +6,7 @@ const { auth } = require('../middleware/authintication');
 const router = express.Router();
 
 router.post("/",auth,OrdersController.makeOrder);
-router.get("/",auth,new JoiValidator([]) ,OrdersController.getOrders);
+router.get("/",auth,new JoiValidator(['page']) ,OrdersController.getOrders);
 router.delete("/:id",auth,new JoiValidator(['id']) ,OrdersController.cancelOrder);
 
 

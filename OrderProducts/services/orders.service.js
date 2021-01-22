@@ -25,7 +25,6 @@ class OrdersService {
         if (!orders) throw new BusinessErrors(0,'orders')
 
         return orders
-
     }
 
     static async cancelOrder(order_id, user_id) {

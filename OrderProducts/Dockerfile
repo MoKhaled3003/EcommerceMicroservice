@@ -7,11 +7,11 @@ RUN chown nodejs:nodejs  /var/
 USER nodejs
 
 # Set working directory
-RUN mkdir -p /var/www/ecommerce
-WORKDIR /var/www/ecommerce
+RUN mkdir -p /var/www/ecommerceOrders
+WORKDIR /var/www/ecommerceOrders
 
 # Copy existing application directory contents
-COPY . /var/www/ecommerce
+COPY . /var/www/ecommerceOrders
 # install all dependencies
 RUN npm cache clean --force
 RUN npm install

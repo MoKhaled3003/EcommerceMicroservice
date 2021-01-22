@@ -17,13 +17,13 @@ class OrdersController {
             return res.status(200).send(orders)
 
         }catch(err){
-        return res.status(errr.status).send(err.message)
+        return res.status(err.status).send(err.message)
         }
     }
     static async cancelOrder(req,res){
         try{
             let canceled = await OrdersService.cancelOrder(req.params.id,req.user.id);
-            return res.status(200).send('order hasbeen canceled')
+            return res.status(200).send('order has been canceled')
 
         }catch(err){
         return res.status(err.status).send(err.message)
