@@ -5,23 +5,16 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config')[env];
 const db = {};
 
-const getHostUrl = ()=>{
-  if(process.env.NODE_ENV !== 'production'){
-    return process.env.HOST
-  }else{
-    return process.env.HOSTPROD
-  }
-}
-
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+if (config) {
+  sequelize = new Sequelize(config);
 } else {
-  sequelize = new Sequelize(process.env.DATABASE, process.env.USER_NAME, process.env.PASSWORD, {
-    host: getHostUrl(),
+  console.log('no env')
+  sequelize = new Sequelize(process.env.MYSQL_DB, process.env.MYSQL_USERNAME, process.env.MYSQL_PASSWORD, {
+    host:process.env.MYSQL_HOST,
     dialect: "mysql",
     dialectOptions: {
       useUTC: false, //for reading from database
