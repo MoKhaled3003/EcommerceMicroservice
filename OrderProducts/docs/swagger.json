@@ -1,297 +1,361 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0",
-      "title": "ecommerce",
-      "contact": {}
-    },
-    "host": "localhost:3000",
-    "basePath": "/products",
-    "schemes": [
-      "http"
-    ],
-    "consumes": [
-      "application/json"
-    ],
-    "produces": [
-      "application/json"
-    ],
-    "paths": {
-      "/ProductsInCategory": {
-        "get": {
-          "summary": "get products in category",
-          "tags": [
-            "Misc"
-          ],
-          "operationId": "getproductsincategory",
-          "deprecated": false,
-          "produces": [
-            "application/json; charset=utf-8"
-          ],
-          "parameters": [
-            {
-              "name": "category_id",
-              "in": "query",
-              "required": true,
-              "type": "integer",
-              "format": "int32",
-              "description": ""
-            },
-            {
-              "name": "page",
-              "in": "query",
-              "required": true,
-              "type": "integer",
-              "format": "int32",
-              "description": ""
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "",
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/getproductsincategory"
-                }
-              },
-              "examples": {
-                "application/json; charset=utf-8": [
-                  {
-                    "id": 1,
-                    "name": "poco x3",
-                    "image_uri": null,
-                    "featured": 1,
-                    "category_id": 2,
-                    "price": 50,
-                    "provider_id": 2
-                  },
-                  {
-                    "id": 1,
-                    "name": "poco x3",
-                    "image_uri": null,
-                    "featured": 1,
-                    "category_id": 2,
-                    "price": 50,
-                    "provider_id": 3
-                  },
-                  {
-                    "id": 2,
-                    "name": "note8",
-                    "image_uri": "",
-                    "featured": 0,
-                    "category_id": 3,
-                    "price": 70,
-                    "provider_id": 1
-                  },
-                  {
-                    "id": 3,
-                    "name": "firebat",
-                    "image_uri": null,
-                    "featured": 0,
-                    "category_id": 4,
-                    "price": 210,
-                    "provider_id": 1
-                  }
-                ]
-              },
-              "headers": {
-                "X-Powered-By": {
-                  "type": "string",
-                  "default": "Express"
-                },
-                "Content-Length": {
-                  "type": "string",
-                  "default": "394"
-                },
-                "ETag": {
-                  "type": "string",
-                  "default": "W/\"18a-ROfZm9xJcpMxfGvd7AD2Nlyh+AU\""
-                },
-                "Date": {
-                  "type": "string",
-                  "default": "Sun, 06 Dec 2020 10:50:43 GMT"
-                },
-                "Connection": {
-                  "type": "string",
-                  "default": "keep-alive"
-                },
-                "Keep-Alive": {
-                  "type": "string",
-                  "default": "timeout=5"
-                }
-              }
-            }
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "ecommerceMicroservice",
+    "contact": {}
+  },
+  "host": "localhost:8080",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/products": {
+      "get": {
+        "summary": "get products",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "getproducts",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           }
-        }
-      },
-      "/setFeatured": {
-        "put": {
-          "summary": "set feautured product",
-          "tags": [
-            "Misc"
-          ],
-          "operationId": "setfeauturedproduct",
-          "deprecated": false,
-          "produces": [
-            "application/json; charset=utf-8"
-          ],
-          "parameters": [
-            {
-              "name": "Body",
-              "in": "body",
-              "required": true,
-              "description": "",
-              "schema": {
-                "$ref": "#/definitions/setfeauturedproductrequest"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "",
-              "schema": {
-                "$ref": "#/definitions/setfeauturedproduct"
-              },
-              "examples": {
-                "application/json; charset=utf-8": {
-                  "message": "product successfully updated"
-                }
-              },
-              "headers": {
-                "X-Powered-By": {
-                  "type": "string",
-                  "default": "Express"
-                },
-                "Content-Length": {
-                  "type": "string",
-                  "default": "42"
-                },
-                "ETag": {
-                  "type": "string",
-                  "default": "W/\"2a-G4jatIPGSZfWyHXTn9ORVUjegB4\""
-                },
-                "Date": {
-                  "type": "string",
-                  "default": "Sun, 06 Dec 2020 10:52:00 GMT"
-                },
-                "Connection": {
-                  "type": "string",
-                  "default": "keep-alive"
-                },
-                "Keep-Alive": {
-                  "type": "string",
-                  "default": "timeout=5"
-                }
-              }
-            },
-            "400": {
-              "description": "Bad Request",
-              "schema": {
-                "$ref": "#/definitions/setfeauturedproduct"
-              },
-              "examples": {
-                "application/json": {
-                  "message": "product already set to this value"
-                }
-              }
-            }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
           }
         }
       }
     },
-    "definitions": {
-      "getproductsincategory": {
-        "title": "getproductsincategory",
-        "example": {
-          "id": 1,
-          "name": "poco x3",
-          "image_uri": null,
-          "featured": 1,
-          "category_id": 2,
-          "price": 50,
-          "provider_id": 2
-        },
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "image_uri": {
-            "type": "string"
-          },
-          "featured": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category_id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "price": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "provider_id": {
-            "type": "integer",
-            "format": "int32"
+    "/products/2": {
+      "get": {
+        "summary": "get product info",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "getproductinfo",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
           }
-        },
-        "required": [
-          "id",
-          "name",
-          "image_uri",
-          "featured",
-          "category_id",
-          "price",
-          "provider_id"
-        ]
-      },
-      "setfeauturedproductrequest": {
-        "title": "setfeauturedproductrequest",
-        "example": {
-          "id": 1,
-          "featured": false
-        },
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "featured": {
-            "type": "boolean"
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
           }
-        },
-        "required": [
-          "id",
-          "featured"
-        ]
-      },
-      "setfeauturedproduct": {
-        "title": "setfeauturedproduct",
-        "example": {
-          "message": "product successfully updated"
-        },
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "message"
-        ]
+        }
       }
     },
-    "tags": [
-      {
-        "name": "Misc",
-        "description": ""
+    "/orders": {
+      "get": {
+        "summary": "get orders",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "getorders",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "description": ""
+          },
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "post": {
+        "summary": "make order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "makeorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          },
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "example": [
+                {
+                  "product_id": 2,
+                  "quantity": 1,
+                  "amount": 100
+                }
+              ],
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/makeorderrequest"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
       }
-    ]
-  }
+    },
+    "/users/register": {
+      "post": {
+        "summary": "register",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "register",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/registerrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "summary": "login",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "login",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Body",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginrequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    },
+    "/orders/25": {
+      "delete": {
+        "summary": "cancel order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "cancelorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      },
+      "put": {
+        "summary": "deliver order",
+        "tags": [
+          "Misc"
+        ],
+        "operationId": "deliverorder",
+        "deprecated": false,
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "x-auth-token",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "registerrequest": {
+      "title": "registerrequest",
+      "example": {
+        "email": "ddd@g.com",
+        "password": "123456",
+        "name": "moha"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password",
+        "name"
+      ]
+    },
+    "loginrequest": {
+      "title": "loginrequest",
+      "example": {
+        "email": "moww2ssqsd@g.com",
+        "password": "123456"
+      },
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ]
+    },
+    "makeorderrequest": {
+      "title": "makeorderrequest",
+      "example": {
+        "product_id": 2,
+        "quantity": 1,
+        "amount": 100
+      },
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "amount": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "required": [
+        "product_id",
+        "quantity",
+        "amount"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "Misc",
+      "description": ""
+    }
+  ]
+}
