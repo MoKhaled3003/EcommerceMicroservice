@@ -31,7 +31,7 @@ CREATE TABLE `Accounts` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `Accounts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `Accounts` (
 
 LOCK TABLES `Accounts` WRITE;
 /*!40000 ALTER TABLE `Accounts` DISABLE KEYS */;
-INSERT INTO `Accounts` VALUES (1,300.00,'2020-12-05 01:59:36','2021-01-22 18:31:29',5);
+INSERT INTO `Accounts` VALUES (1,4000.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',1),(2,5000.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',2);
 /*!40000 ALTER TABLE `Accounts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,7 +67,7 @@ CREATE TABLE `Categories` (
 
 LOCK TABLES `Categories` WRITE;
 /*!40000 ALTER TABLE `Categories` DISABLE KEYS */;
-INSERT INTO `Categories` VALUES (1,'red',0,'2020-12-05 01:59:36','2020-12-05 01:59:36'),(2,'green',0,'2020-12-05 01:59:36','2020-12-05 01:59:36');
+INSERT INTO `Categories` VALUES (1,'mobiles',0,'2021-01-23 17:36:28','2021-01-23 17:36:28'),(2,'labtops',0,'2021-01-23 17:36:28','2021-01-23 17:36:28');
 /*!40000 ALTER TABLE `Categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,11 +86,11 @@ CREATE TABLE `Holded_Amounts` (
   `order_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `order_id_idx` (`order_id`),
-  KEY `user_id_idx` (`user_id`),
-  CONSTRAINT `order_id` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  KEY `order_id` (`order_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `Holded_Amounts_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `Holded_Amounts_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `Order_Details` (
   KEY `order_id` (`order_id`),
   CONSTRAINT `Order_Details_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `Products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `Order_Details_ibfk_2` FOREIGN KEY (`order_id`) REFERENCES `Orders` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -131,7 +131,6 @@ CREATE TABLE `Order_Details` (
 
 LOCK TABLES `Order_Details` WRITE;
 /*!40000 ALTER TABLE `Order_Details` DISABLE KEYS */;
-INSERT INTO `Order_Details` VALUES (1,500.00,1,'2021-01-22 20:13:57','2021-01-22 20:13:57',1,NULL),(2,100.00,1,'2021-01-22 20:13:57','2021-01-22 20:13:57',2,NULL),(7,500.00,1,'2021-01-22 18:31:20','2021-01-22 18:31:20',1,24),(8,100.00,1,'2021-01-22 18:31:20','2021-01-22 18:31:20',2,24);
 /*!40000 ALTER TABLE `Order_Details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +150,7 @@ CREATE TABLE `Orders` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `Orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +159,6 @@ CREATE TABLE `Orders` (
 
 LOCK TABLES `Orders` WRITE;
 /*!40000 ALTER TABLE `Orders` DISABLE KEYS */;
-INSERT INTO `Orders` VALUES (12,'pending','2021-01-22 18:53:13','2021-01-22 18:53:13',5),(13,'pending','2021-01-22 19:01:08','2021-01-22 19:01:08',5),(14,'delivered','2021-01-22 19:03:05','2021-01-22 19:53:37',5),(15,'delivered','2021-01-22 19:56:41','2021-01-22 19:56:52',5),(24,'delivered','2021-01-22 18:31:20','2021-01-22 18:31:29',5);
 /*!40000 ALTER TABLE `Orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -182,7 +180,7 @@ CREATE TABLE `Products` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   CONSTRAINT `Products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `Categories` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -191,7 +189,7 @@ CREATE TABLE `Products` (
 
 LOCK TABLES `Products` WRITE;
 /*!40000 ALTER TABLE `Products` DISABLE KEYS */;
-INSERT INTO `Products` VALUES (1,'apple','ga',1000.00,'2020-12-05 01:59:36','2020-12-05 01:59:36',1),(2,'sam','sa',100.00,'2020-12-05 01:59:36','2020-12-05 01:59:36',2);
+INSERT INTO `Products` VALUES (1,'mi note 8','redmii',1000.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',1),(2,'samsung A51','samsung',1500.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',1),(3,'z5070','lenovo',1200.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',2),(4,'b999','toshiba',800.00,'2021-01-23 17:36:28','2021-01-23 17:36:28',2);
 /*!40000 ALTER TABLE `Products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +208,7 @@ CREATE TABLE `users` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,7 +217,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'moha','mow2@g.com','$2b$10$n9Rorc1i3LwcsI2xNGGcbufLnb.oSs6BgbFe0an7TM494kkCjZ1Xi','2021-01-20 00:36:42','2021-01-20 00:36:42'),(2,'moha','mow2ss@g.com','$2b$10$Cm6wlisdY0T6XPucaX0lku50D6nqDEHF6anGZxpJ4yEgx.84nhlwi','2021-01-20 00:46:56','2021-01-20 00:46:56'),(3,'moha','moww2ss@g.com','$2b$10$oQybPEnvzJnbirqlQjppROseiQD/QkMAzER58k8AC2MnMSxMbwC3a','2021-01-20 00:48:01','2021-01-20 00:48:01'),(4,'moha','moww2ssqs@g.com','$2b$10$VFACVeNOAGN4UiQrIR0Tkuz/hnf3dsZXSYLMg7TeH9avXgHrJuVG2','2021-01-20 00:50:59','2021-01-20 00:50:59'),(5,'moha','moww2ssqsd@g.com','$2b$10$T4wpNsJ/Iqn9fDhmv9M12u81tCIxr7YDrSFW/AsHMfdk8CuKBugZe','2021-01-20 00:56:03','2021-01-20 00:56:03');
+INSERT INTO `users` VALUES (1,'moha','mokhaled@gmail.com','$2a$10$SPaRgeBxdafQn814o7SQTOrT8XRsP0R8yBa3vkcZny9QD71gpzHFO','2021-01-23 23:13:57','2021-01-23 23:13:57'),(2,'ahmed','ahmedAlaa@gmail.com','$2a$10$4t5djQtcAG4vNa0AhOPbXOLrv42FL55TcjwH0GAub.v3U9bQAQ5ky','2021-01-23 23:14:21','2021-01-23 23:14:21');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -232,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-22 21:20:24
+-- Dump completed on 2021-01-24  1:22:06
