@@ -28,11 +28,9 @@ class UsersService {
     })
     return {
       code: 200,
-      message: {
-        user,
-        token
+      message: user,
+      token: token
       }
-    }
   }
 
 
@@ -61,11 +59,9 @@ class UsersService {
     })
     return {
       code: 200,
-      message: {
-        user,
-        token
+      message: user,
+      token: token
       }
-    }
 
   }
 }
