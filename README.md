@@ -12,8 +12,10 @@ Node.js simple app with validation and pagination middlewares using Sequelize OR
 -   [Swagger API](https://swagger.io/)
 
 ## Running the app
-- please update .env file at root directory with your database credentials and database name should be the same with the one in the sql script
+- please update your ~/.profile with env variables or pass it to docker compose file at Deployment directory with your database credentials and database name should be the same with the one in the sql script
 - please find DDL script at './Deployment/ecommercStructreData.sql'
+- docker compose populate databse with data by ecommercStructreData.sql
+- 
 - i have attached postman collection for APIs
 - move to Deployment Directory
 ```bash
