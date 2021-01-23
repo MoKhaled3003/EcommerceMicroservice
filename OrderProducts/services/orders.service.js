@@ -87,7 +87,7 @@ class OrdersService {
             transaction = await sequelize.transaction();
 
             let total_amount = 0;
-            body.forEach(product => {
+            body.order.forEach(product => {
                 total_amount += (product.amount * product.quantity)
             })
 
@@ -123,7 +123,7 @@ class OrdersService {
             }, {
                 transaction
             });
-            for(let product of body){
+            for(let product of body.order){
                 await Order_Detail.create({
                     order_id: order.id,
                     product_id: product.product_id,

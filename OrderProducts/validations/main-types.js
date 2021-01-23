@@ -4,7 +4,11 @@ const CustomTypes = {
     id: Joi.number().min(1).required(),
     page: Joi.number().sign("positive").required(),
     category_id: Joi.number().min(1).required(),
-    featured: Joi.bool().required()
+    order: Joi.array().items({
+        product_id: Joi.number().min(1).required(),
+        quantity: Joi.number().min(1).required(),
+        amount: Joi.number().sign("positive").required()
+    })
 }
 
 
