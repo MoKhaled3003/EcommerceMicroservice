@@ -8,7 +8,7 @@ class OrdersController {
             return res.status(200).send(order)
 
         }catch(err){
-            return res.status(err.status).send(err.message)
+            return res.status(err.code).send(err.message)
         }
     }
     static async getOrders(req,res){
@@ -17,7 +17,7 @@ class OrdersController {
             return res.status(200).send(orders)
 
         }catch(err){
-        return res.status(err.status).send(err.message)
+        return res.status(err.code).send(err.message)
         }
     }
     static async cancelOrder(req,res){
@@ -26,7 +26,7 @@ class OrdersController {
             return res.status(200).send('order has been canceled')
 
         }catch(err){
-        return res.status(err.status).send(err.message)
+        return res.status(err.code).send(err.message)
         }
     }
     static async deliverOrder(req,res){
@@ -35,7 +35,7 @@ class OrdersController {
             return res.status(200).send('order has been delivered')
 
         }catch(err){
-        return res.status(err.status).send(err.message)
+        return res.status(err.code).send(err.message)
         }
     }
 }

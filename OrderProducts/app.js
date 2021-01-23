@@ -29,10 +29,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// catch an unhandled rejection
+
 
 app.use('/orders/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use('/', indexRouter);
 app.use('/orders', ordersRouter);
+
+process.on("unhandledRejection", (ex) => {
+  throw ex;
+});
 
 app.use((err, req, res, next) => {
  

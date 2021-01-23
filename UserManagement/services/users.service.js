@@ -6,6 +6,8 @@ const {
 const {
   createToken
 } = require('../middleware/authintication')
+const errors = require('../errors/businessErrors')
+const BusinessError = require('../middleware/businessError')
 
 class UsersService {
   static async register(body) {
@@ -14,10 +16,7 @@ class UsersService {
         email: body.email
       }
     });
-    if (user) return {
-      code: 400,
-      message: "user is already registered"
-    };
+    if (user) throw new BusinessError(errors.USER_REGISTERED)
 
     body.password = await hash(body.password)
     user = await new User(body).save();
@@ -41,17 +40,10 @@ class UsersService {
         email: body.email
       }
     });
-
-    if (!user) return {
-      code: 400,
-      message: "email or password is incorrect"
-    }
+    if (!user) throw new BusinessError(errors.INVALID_CREDENTIALS)
 
     let validPassword = await validatePass(body.password, user.password)
-    if (!validPassword) return {
-      code: 400,
-      message: "email or password is incorrect"
-    }
+    if (!validPassword) throw new BusinessError(errors.INVALID_CREDENTIALS)
 
     let token = createToken({
       email: user.email,

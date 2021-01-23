@@ -9,6 +9,8 @@ let {
   paginate
 } = require('../middleware/paginate')
 const Sequelize = require('sequelize');
+
+const errors = require('../errors/businessErrors')
 const BusinessError = require('../middleware/businessError')
 const Op = Sequelize.Op;
 
@@ -36,7 +38,7 @@ async function getBalance(id) {
   let filter = {}
   let allowed_balance = parseFloat(account.dataValues.balance) - parseFloat(holded_amount.total)
 
-  if(allowed_balance <= 0) throw new BusinessError(1,'balance') 
+  if(allowed_balance <= 0) throw new BusinessError(errors.INSUFFCIENT_BALANCE) 
 
   filter[Op.lte] = allowed_balance 
   return filter
@@ -58,7 +60,7 @@ class ProductsService {
     offset: pagination.startIndex
     })
 
-    if (!products) throw new BusinessError(0,'products') 
+    if (!products) throw new BusinessError(await errors.NOTFOUND('products')) 
 
     return products
   }
@@ -73,7 +75,7 @@ class ProductsService {
       where : query
     })
 
-    if (!product) throw new BusinessError(0,'products') 
+    if (!product) throw new BusinessError(await errors.NOTFOUND('product')) 
 
     return product
 

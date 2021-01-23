@@ -9,7 +9,7 @@ class ProductsController {
             return res.status(200).send(products)
         } catch (err) {
             console.log(err)
-            return res.status(err.status).send(err.message)
+            return res.status(err.code).send(err.message)
         }
     }
 
@@ -19,7 +19,7 @@ class ProductsController {
             let product = await ProductsService.getProduct(req.params.id, req.user);
             return res.status(200).send(product)
         } catch (err) {
-             return res.status(err.status).send(err.message)
+             return res.status(err.code).send(err.message)
         }
     }
 }

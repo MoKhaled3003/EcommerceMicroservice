@@ -1,4 +1,3 @@
-//models
 const Order = require("../models/index")["Order"];
 const Order_Detail = require("../models/index")["Order_Detail"];
 const Holded_Amount = require("../models/index")["Holded_Amount"];
@@ -12,6 +11,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const moment = require('moment')
 
+const errors = require('../errors/businessErrors')
 const BusinessErrors = require('../middleware/businessError')
 
 class OrdersService {
@@ -26,7 +26,7 @@ class OrdersService {
             limit: pagination.offset,
             offset: pagination.startIndex
         })
-        if (!orders) throw new BusinessErrors(0,'orders')
+        if (!orders) throw new BusinessErrors(await errors.NOTFOUND('orders'))
 
         return orders
     }
@@ -41,9 +41,8 @@ class OrdersService {
                 }
             })
 
-            if (!order) throw new BusinessErrors(0,'order')
-
-            if (order.status == 'delivered') throw new BusinessErrors(2,'order')
+            if (!order) throw new BusinessErrors(await errors.NOTFOUND('order'))
+            if (order.status == 'delivered') throw new BusinessErrors(errors.ORDER_DELIVERED)
 
             let account = await Account.findOne({
                 where: {
@@ -52,7 +51,7 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             });
-            if (!account) throw new BusinessErrors(0,'account')
+            if (!account) throw new BusinessErrors(await errors.NOTFOUND('account'))
 
 
             let orderDetail = await Order_Detail.findAll({
@@ -99,7 +98,7 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             });
-            if (!account) throw new BusinessErrors(0,'account')
+            if (!account) throw new BusinessErrors(await errors.NOTFOUND('account'))
 
             let holded_amount = await Holded_Amount.findOne({
                 where: {
@@ -116,7 +115,7 @@ class OrdersService {
 
             console.log('max allowed balance',max_allowed_balance)
             //check maximum allowed balance
-            if (total_amount > max_allowed_balance ) throw new BusinessErrors(1)
+            if (total_amount > max_allowed_balance ) throw new BusinessErrors(errors.INSUFFCIENT_BALANCE)
 
             let order = await Order.create({
                 status: 'pending',
@@ -124,8 +123,7 @@ class OrdersService {
             }, {
                 transaction
             });
-
-            body.forEach(async product => {
+            for(let product of body){
                 await Order_Detail.create({
                     order_id: order.id,
                     product_id: product.product_id,
@@ -134,9 +132,8 @@ class OrdersService {
                 }, {
                     transaction
                 });
+            }
 
-            })
-            
             await Holded_Amount.create({
                 order_id: order.id,
                 amount: total_amount,
@@ -159,6 +156,7 @@ class OrdersService {
             // Rollback transaction only if the transaction object is defined
             console.log(err);
             if (transaction) await transaction.rollback();
+            if(isNaN(err.code)) throw new BusinessErrors(errors.TRANSACTION_FAILED)
             throw err
         }
 
@@ -175,8 +173,9 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             })
-            if (!order) throw new BusinessErrors(0,'order')
-            if (order.status == 'delivered') throw new BusinessErrors(2,'order')
+
+            if (!order) throw new BusinessErrors(await errors.NOTFOUND('order'))
+            if (order.status == 'delivered') throw new BusinessErrors(errors.ORDER_DELIVERED)
 
             order.status = 'delivered'
             await order.save({fields: ['status'],transaction});
@@ -188,7 +187,7 @@ class OrdersService {
                 raw:true,
                 transaction
             });
-            if (!holded_amount) throw new BusinessErrors(0,'holded_amount')
+            if (!holded_amount) throw new BusinessErrors(await errors.NOTFOUND('holded_amount'))
 
             let account = await Account.findOne({
                 where: {
@@ -197,7 +196,7 @@ class OrdersService {
                 transaction,
                 lock: transaction.LOCK.UPDATE
             });
-            if (!account) throw new BusinessErrors(0,'account')
+            if (!account) throw new BusinessErrors(await errors.NOTFOUND('account'))
 
             let deductedAmount = parseFloat(account.balance) - parseFloat(holded_amount.amount)
             account.balance = deductedAmount;
@@ -212,6 +211,7 @@ class OrdersService {
             // Rollback transaction only if the transaction object is defined
             console.log(err);
             if (transaction) await transaction.rollback();
+            if(isNaN(err.code)) throw new BusinessErrors(errors.TRANSACTION_FAILED)
             throw err
         }
 
