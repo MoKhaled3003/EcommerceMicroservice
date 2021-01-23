@@ -66,9 +66,9 @@ class OrdersService {
             
             let deletedOrderDetail = orderDetail.map(e=>e.id)
 
-            Order_Detail.destroy({ where: { id: deletedOrderDetail }})
-            Order.destroy({ where: { id: order_id }})
-            Holded_Amount.destroy({ where: { order_id }})
+            await Order_Detail.destroy({ where: { id: deletedOrderDetail }})
+            await Order.destroy({ where: { id: order_id }})
+            await Holded_Amount.destroy({ where: { order_id }})
 
             await transaction.commit();
             return true

@@ -1,30 +1,34 @@
+const {INSUFFCIENT_BALANCE} = require("../errors/businessErrors")
 class BusinessError extends Error{
-    constructor(category, resource) {
-        let message;
-        let status;
-        switch (category){
-            case 0:
-                message = `${resource} not found`
-                status = 404
-                break;
-            case 1:
-                message = `Insufficient Balance`
-                status = 400
-                break;
-            case 2:
-                message = `the ${resource} has been delivered`
-                status = 400
-                break;    
-            case 3:
-                message = `${resource} has been failed`
-                status = 500
-                break;        
-        }
-        
-        super(message)
-        this.status = status;
+    constructor(error) {
+        super(error.errorMessage)
+        this.code = error.apiErrorCode
         this.name = 'BusinessError'
     }
 }
 
-module.exports = BusinessError;
+// module.exports = BusinessError;
+
+
+// class ExtendableError extends Error {
+//   constructor(message) {
+//     super();
+//     this.message = message;
+//     this.stack = (new Error()).stack;
+//     this.name = this.constructor.name;
+//   }
+// }    
+
+// // now I can extend
+
+// class MyError extends ExtendableError {
+//   constructor(m) {   
+//     super(m);
+//   }
+// }
+
+var myerror = new BusinessError(INSUFFCIENT_BALANCE);
+console.log(myerror.message);
+/* console.log(myerror instanceof Error);
+console.log(myerror.name);
+console.log(myerror.stack); */

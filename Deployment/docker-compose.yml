@@ -15,9 +15,9 @@ services:
     image: mokhaled3003/user-management
     environment:
       NODE_ENV: production
-      MYSQL_USERNAME: $MYSQL_USERNAME
-      MYSQL_PASSWORD: $MYSQL_PASSWORD 
-      MYSQL_DB: $MYSQL_DB 
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root12 
+      MYSQL_DB: ecommerce 
       MYSQL_HOST: mysqldb 
     depends_on:
       - mysqldb
@@ -28,9 +28,9 @@ services:
     image: mokhaled3003/filter-products
     environment:
       NODE_ENV: production
-      MYSQL_USERNAME: $MYSQL_USERNAME
-      MYSQL_PASSWORD: $MYSQL_PASSWORD 
-      MYSQL_DB: $MYSQL_DB 
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root12 
+      MYSQL_DB: ecommerce 
       MYSQL_HOST: mysqldb 
     depends_on:
       - mysqldb
@@ -41,10 +41,10 @@ services:
     image: mokhaled3003/orders
     environment:
       NODE_ENV: production
-      MYSQL_USERNAME: $MYSQL_USERNAME
-      MYSQL_PASSWORD: $MYSQL_PASSWORD 
-      MYSQL_DB: $MYSQL_DB 
-      MYSQL_HOST: mysqldb
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root12 
+      MYSQL_DB: ecommerce 
+      MYSQL_HOST: mysqldb 
     depends_on:
       - mysqldb
     links:
