@@ -166,7 +166,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\n    [\n        \n        {\n            \"product_id\":2,\n            \"quantity\":1,\n            \"amount\":100\n\n        }\n\n    ]\n",
+					"raw": "\n {\n      \"order\": [      \n        {\n            \"product_id\":2,\n            \"quantity\":1,\n            \"amount\":100\n\n        },\n    {\n            \"product_id\":1,\n            \"quantity\":2,\n            \"amount\":1000\n\n        }\n\n    ]\n }",
 					"options": {
 						"raw": {
 							"language": "json"

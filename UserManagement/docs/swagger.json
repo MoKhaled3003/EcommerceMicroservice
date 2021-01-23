@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0",
-    "title": "ecommerceMicroservice",
+    "title": "Ecommerce Microservice User Management",
     "contact": {}
   },
   "host": "localhost:8080",
@@ -17,152 +17,7 @@
     "application/json"
   ],
   "paths": {
-    "/products": {
-      "get": {
-        "summary": "get products",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "getproducts",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          },
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/products/2": {
-      "get": {
-        "summary": "get product info",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "getproductinfo",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/orders": {
-      "get": {
-        "summary": "get orders",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "getorders",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          },
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "post": {
-        "summary": "make order",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "makeorder",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          },
-          {
-            "name": "Body",
-            "in": "body",
-            "required": true,
-            "description": "",
-            "schema": {
-              "example": [
-                {
-                  "product_id": 2,
-                  "quantity": 1,
-                  "amount": 100
-                }
-              ],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/makeorderrequest"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/users/register": {
+        "/users/register": {
       "post": {
         "summary": "register",
         "tags": [
@@ -221,60 +76,6 @@
           }
         }
       }
-    },
-    "/orders/25": {
-      "delete": {
-        "summary": "cancel order",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "cancelorder",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      },
-      "put": {
-        "summary": "deliver order",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "deliverorder",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
     }
   },
   "definitions": {
@@ -321,34 +122,6 @@
       "required": [
         "email",
         "password"
-      ]
-    },
-    "makeorderrequest": {
-      "title": "makeorderrequest",
-      "example": {
-        "product_id": 2,
-        "quantity": 1,
-        "amount": 100
-      },
-      "type": "object",
-      "properties": {
-        "product_id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "amount": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "required": [
-        "product_id",
-        "quantity",
-        "amount"
       ]
     }
   },

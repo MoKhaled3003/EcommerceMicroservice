@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0",
-    "title": "ecommerceMicroservice",
+    "title": "Ecommerce Microservice",
     "contact": {}
   },
   "host": "localhost:8080",
@@ -17,70 +17,6 @@
     "application/json"
   ],
   "paths": {
-    "/products": {
-      "get": {
-        "summary": "get products",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "getproducts",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32",
-            "description": ""
-          },
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/products/2": {
-      "get": {
-        "summary": "get product info",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "getproductinfo",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "x-auth-token",
-            "in": "header",
-            "required": true,
-            "type": "string",
-            "description": ""
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
     "/orders": {
       "get": {
         "summary": "get orders",
@@ -140,77 +76,7 @@
             "required": true,
             "description": "",
             "schema": {
-              "example": [
-                {
-                  "product_id": 2,
-                  "quantity": 1,
-                  "amount": 100
-                }
-              ],
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/makeorderrequest"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/users/register": {
-      "post": {
-        "summary": "register",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "register",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Body",
-            "in": "body",
-            "required": true,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/registerrequest"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "headers": {}
-          }
-        }
-      }
-    },
-    "/users/login": {
-      "post": {
-        "summary": "login",
-        "tags": [
-          "Misc"
-        ],
-        "operationId": "login",
-        "deprecated": false,
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "Body",
-            "in": "body",
-            "required": true,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/loginrequest"
+              "$ref": "#/definitions/makeorderrequest"
             }
           }
         ],
@@ -278,53 +144,37 @@
     }
   },
   "definitions": {
-    "registerrequest": {
-      "title": "registerrequest",
-      "example": {
-        "email": "ddd@g.com",
-        "password": "123456",
-        "name": "moha"
-      },
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "password",
-        "name"
-      ]
-    },
-    "loginrequest": {
-      "title": "loginrequest",
-      "example": {
-        "email": "moww2ssqsd@g.com",
-        "password": "123456"
-      },
-      "type": "object",
-      "properties": {
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "email",
-        "password"
-      ]
-    },
     "makeorderrequest": {
       "title": "makeorderrequest",
+      "example": {
+        "order": [
+          {
+            "product_id": 2,
+            "quantity": 1,
+            "amount": 100
+          },
+          {
+            "product_id": 1,
+            "quantity": 2,
+            "amount": 1000
+          }
+        ]
+      },
+      "type": "object",
+      "properties": {
+        "order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Order"
+          }
+        }
+      },
+      "required": [
+        "order"
+      ]
+    },
+    "Order": {
+      "title": "Order",
       "example": {
         "product_id": 2,
         "quantity": 1,
