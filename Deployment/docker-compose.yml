@@ -1,8 +1,8 @@
 version: "3"
 services:
-  nginx:
-      image: mokhaled3003/nginx
-      container_name: nginx  
+  reverseproxy:
+      image: mokhaled3003/reverseproxy
+      container_name: reverseproxy  
       ports:
           - 8080:8080
       restart: always

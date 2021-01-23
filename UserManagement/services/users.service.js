@@ -1,6 +1,3 @@
-const {
-  sequelize
-} = require("../models/index");
 const User = require("../models/index")["User"];
 const {
   hash,
@@ -31,14 +28,15 @@ class UsersService {
     })
     return {
       code: 200,
-      message: user,
-      token: token
+      message: {
+        user,
+        token
+      }
     }
   }
 
 
   static async login(body) {
-
 
     let user = await User.findOne({
       where: {
@@ -63,8 +61,10 @@ class UsersService {
     })
     return {
       code: 200,
-      message: user,
-      token: token
+      message: {
+        user,
+        token
+      }
     }
 
   }

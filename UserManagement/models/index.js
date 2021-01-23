@@ -10,6 +10,7 @@ const db = {};
 
 let sequelize;
 if (config) {
+  console.log("🚀 ~ file: index.js ~ line 13 ~ config", config)
   sequelize = new Sequelize(config);
 } else {
   console.log('no env')

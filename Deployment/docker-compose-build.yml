@@ -1,17 +1,17 @@
 version: "3"
 services:
-  nginx:
+  reverseproxy:
     build:
       context: .
     image: mokhaled3003/reverseproxy 
   userManagement:
     build:
       context: ../UserManagement
-    image: mokhaled3003/userManagement
+    image: mokhaled3003/user-management
   filterProducts:
     build:
       context: ../FilterProducts
-    image: mokhaled3003/filterProducts
+    image: mokhaled3003/filter-products
   orders:
     build:
       context: ../OrderProducts
