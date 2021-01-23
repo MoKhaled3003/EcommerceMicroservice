@@ -13,13 +13,12 @@ Node.js simple app with validation and pagination middlewares using Sequelize OR
 
 ## Running the app
 - please update .env file at root directory with your database credentials and database name should be the same with the one in the sql script
-- please find DDL script at './DDL Structure.sql'
-- please find DDL script with dumb data for testing at './DDL StructureData.sql'
+- please find DDL script at './Deployment/ecommercStructreData.sql'
 - i have attached postman collection for APIs
-
+- move to Deployment Directory
 ```bash
 # build docker image for the app
-$ docker build -t mokhaled3003/ecommerce .
+$ docker-compose build
 $ docker pull mysql:latest
 $ docker-compose up
 
@@ -27,7 +26,10 @@ $ docker-compose up
 $ npm install
 $ npm start
 ```
-- visit [ecommerce App Api Docs](http://localhost:3000/api-docs/) to find Products Api Docs.
+- visit [users Api Docs](http://localhost:8080/users/api-docs/) to find users Api Docs.
+- visit [products Api Docs](http://localhost:8080/products/api-docs/) to find Products Api Docs.
+- visit [orders Api Docs](http://localhost:8080/orders/api-docs/) to find orders Api Docs.
+
 
 ## Support
 
