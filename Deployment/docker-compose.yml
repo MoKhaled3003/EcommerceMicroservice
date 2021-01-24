@@ -1,7 +1,9 @@
 version: "3"
 services:
   reverseproxy:
-      image: mokhaled3003/reverseproxy
+      build: 
+        context: .
+        dockerfile: ./Dockerfile
       container_name: reverseproxy  
       ports:
           - 8080:8080
@@ -12,7 +14,10 @@ services:
         - orders
   userManagement:
     container_name: userManagement  
-    image: mokhaled3003/user-management
+    build: 
+        context: ../UserManagement
+        dockerfile: ./Dockerfile
+    image: mokhaled3003/user-management    
     environment:
       NODE_ENV: development
       MYSQL_USERNAME: $MYSQL_USERNAME
@@ -25,7 +30,10 @@ services:
       - mysqldb  
   filterProducts:
     container_name: filterProducts
-    image: mokhaled3003/filter-products
+    image: mokhaled3003/filter-products    
+    build: 
+        context: ../FilterProducts
+        dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
       MYSQL_USERNAME: $MYSQL_USERNAME
@@ -39,6 +47,9 @@ services:
   orders:
     container_name: orders
     image: mokhaled3003/orders
+    build: 
+        context: ../OrderProducts
+        dockerfile: ./Dockerfile
     environment:
       NODE_ENV: development
       MYSQL_USERNAME: $MYSQL_USERNAME
