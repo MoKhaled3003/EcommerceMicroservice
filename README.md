@@ -19,8 +19,7 @@ Node.js simple microservice app running behind Nginx as reverse proxy and all se
 - i have attached postman collection for APIs
 - move to Deployment Directory
 ```bash
-# build docker image for the app
-$ docker-compose build
+# build docker image for the ap
 $ docker pull mysql:latest
 $ docker-compose up
 

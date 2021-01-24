@@ -1,5 +1,5 @@
 # Pull node image from docker hub
-FROM node:12-alpine
+FROM node:10-alpine
 
 #making sure that container isn't running as root
 RUN addgroup  nodejs && adduser   -S -s  /bin/bash -g  nodejs nodejs
